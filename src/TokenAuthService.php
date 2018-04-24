@@ -4,6 +4,7 @@
  */
 namespace Uniondrug\TokenAuthMiddleware;
 
+use Phalcon\Config;
 use Phalcon\Http\RequestInterface;
 use Uniondrug\Framework\Services\Service;
 
@@ -58,9 +59,9 @@ class TokenAuthService extends Service
      */
     public function isWhiteList($uri)
     {
-        if (($whitelist = $this->getWhiteList()) !== '') {
-            $uri = preg_replace("/\?(\S*)/", "", $uri);
-            return preg_match("/^(".$whitelist.")/", $uri) > 0;
+        $regexp = $this->getWhiteList();
+        if ($regexp !== ''){
+            return preg_match($regexp, preg_replace("/\?(\S*)/", "", $uri)) > 0;
         }
         return false;
     }
@@ -71,23 +72,14 @@ class TokenAuthService extends Service
      */
     public function getWhiteList()
     {
-        // 1. with last execute
-        if ($this->whiteList !== null) {
-            return $this->whiteList;
+        if ($this->whiteList === null){
+            $whiteList = $this->config->path('middleware.token.whitelist');
+            if (is_string($whiteList) && $whiteList !== ''){
+                $this->whiteList = $whiteList;
+            } else {
+                $this->whiteList = '';
+            }
         }
-        // 2. calc
-        $config = $this->config->path('middleware.token.whitelist');
-        $whiteList = '';
-        if ($config instanceof Config) {
-            $whiteList = preg_replace([
-                "/\//",
-                "/\./"
-            ], [
-                "\\/",
-                "\\."
-            ], implode('|', $config->toArray()));
-        }
-        $this->whiteList = $whiteList;
         return $this->whiteList;
     }
 
