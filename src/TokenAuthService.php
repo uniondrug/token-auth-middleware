@@ -23,10 +23,6 @@ class TokenAuthService extends Service
      */
     const USERNAME_HEADER = 'HTTP_X_USERNAME';
     /**
-     * UserMobile 头名称
-     */
-    const USERMOBILE_HEADER = 'HTTP_X_USERMOBILE';
-    /**
      * @var array
      */
     protected $whiteList = null;
@@ -64,7 +60,7 @@ class TokenAuthService extends Service
     public function isWhiteList($uri)
     {
         $regexp = $this->getWhiteList();
-        if ($regexp !== ''){
+        if ($regexp !== '') {
             return preg_match($regexp, preg_replace("/\?(\S*)/", "", $uri)) > 0;
         }
         return false;
@@ -76,9 +72,9 @@ class TokenAuthService extends Service
      */
     public function getWhiteList()
     {
-        if ($this->whiteList === null){
+        if ($this->whiteList === null) {
             $whiteList = $this->config->path('middleware.token.whitelist');
-            if (is_string($whiteList) && $whiteList !== ''){
+            if (is_string($whiteList) && $whiteList !== '') {
                 $this->whiteList = $whiteList;
             } else {
                 $this->whiteList = '';
@@ -158,15 +154,6 @@ class TokenAuthService extends Service
     public function getUsername()
     {
         return $this->request->getHeader('x-username');
-    }
-
-    /**
-     * 返回userMobile
-     * @return string
-     */
-    public function getUserMobile()
-    {
-        return $this->request->getHeader('x-usermobile');
     }
 
     /**

@@ -58,7 +58,7 @@ return [
 
 ## `tokenAuthService` 服务的接口
 
-* `issueToken($userId, $username)`
+* `issueToken($userId, $username, $userMobile)`
 
 颁发Token，在应用中为用户颁发Token，一般为登录成功后调用
 
