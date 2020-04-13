@@ -23,6 +23,10 @@ class TokenAuthService extends Service
      */
     const USERNAME_HEADER = 'HTTP_X_USERNAME';
     /**
+     * UserMobile 头名称
+     */
+    const USERMOBILE_HEADER = 'HTTP_X_USERMOBILE';
+    /**
      * @var array
      */
     protected $whiteList = null;
@@ -105,7 +109,7 @@ class TokenAuthService extends Service
     {
         if ($token = $this->get($tokenKey)) {
             $this->del($tokenKey);
-            $this->di->getLogger('middleware')->debug(sprintf("[TokenAuth] 注销TOKEN: token=%s, userId=%d, userName=%s", $token->name, $token->userId, $token->username));
+            $this->di->getLogger('middleware')->debug(sprintf("[TokenAuth] 注销TOKEN: token=%s, userId=%d, userName=%s, userMobile=%s", $token->name, $token->userId, $token->username, $token->userMobile));
         }
     }
 
@@ -113,9 +117,10 @@ class TokenAuthService extends Service
      * 生成Token，同时放入缓存
      * @param null $userId
      * @param null $username
+     * @param null $userMobile
      * @return string
      */
-    public function issueToken($userId = null, $username = null)
+    public function issueToken($userId = null, $username = null, $userMobile = null)
     {
         if ($userId == null && $username == null) {
             throw new \RuntimeException("userId and username cannot be null at the same time", 30000);
@@ -126,13 +131,14 @@ class TokenAuthService extends Service
             'name' => $tokenKey,
             'userId' => $userId,
             'username' => $username,
+            'userMobile' => $userMobile,
             'ttl' => $tokenTtl,
         ]);
         if ($this->set($tokenAuthStruct)) {
-            $this->di->getLogger('middleware')->debug(sprintf("[TokenAuth] 颁发Token: token=%s, userId=%s, userName=%s", $tokenKey, $userId, $username));
+            $this->di->getLogger('middleware')->debug(sprintf("[TokenAuth] 颁发Token: token=%s, userId=%s, userName=%s, userMobile=%s", $tokenKey, $userId, $userMobile));
             return $tokenKey;
         }
-        $this->di->getLogger('middleware')->debug(sprintf("[TokenAuth] 颁发Token失败: userId=%d, userName=%s", $userId, $username));
+        $this->di->getLogger('middleware')->debug(sprintf("[TokenAuth] 颁发Token失败: userId=%d, userName=%s, userMobile=%s", $userId, $username, $userMobile));
         throw new \RuntimeException("颁发Token失败");
     }
 
@@ -152,6 +158,15 @@ class TokenAuthService extends Service
     public function getUsername()
     {
         return $this->request->getHeader('x-username');
+    }
+
+    /**
+     * 返回userMobile
+     * @return string
+     */
+    public function getUserMobile()
+    {
+        return $this->request->getHeader('x-usermobile');
     }
 
     /**

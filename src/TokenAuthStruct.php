@@ -28,6 +28,13 @@ class TokenAuthStruct extends Struct
     public $username;
 
     /**
+     * 用户手机号码
+     *
+     * @var string
+     */
+    public $userMobile;
+
+    /**
      * 有效时长
      *
      * @var int

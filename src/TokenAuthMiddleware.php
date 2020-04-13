@@ -36,6 +36,7 @@ class TokenAuthMiddleware extends Middleware
         // 3. 附加信息
         $_SERVER[TokenAuthService::USERID_HEADER] = $tokenAuthStruct->userId;
         $_SERVER[TokenAuthService::USERNAME_HEADER] = $tokenAuthStruct->username;
+        $_SERVER[TokenAuthService::USERMOBILE_HEADER] = $tokenAuthStruct->userMobile;
         // 4. 后续请求
         return $next($request);
     }
