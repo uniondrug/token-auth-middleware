@@ -131,7 +131,7 @@ class TokenAuthService extends Service
             'ttl' => $tokenTtl,
         ]);
         if ($this->set($tokenAuthStruct)) {
-            $this->di->getLogger('middleware')->debug(sprintf("[TokenAuth] 颁发Token: token=%s, userId=%s, userName=%s, userMobile=%s", $tokenKey, $userId, $userMobile));
+            $this->di->getLogger('middleware')->debug(sprintf("[TokenAuth] 颁发Token: token=%s, userId=%s, userName=%s, userMobile=%s", $tokenKey, $userId, $username, $userMobile));
             return $tokenKey;
         }
         $this->di->getLogger('middleware')->debug(sprintf("[TokenAuth] 颁发Token失败: userId=%d, userName=%s, userMobile=%s", $userId, $username, $userMobile));
