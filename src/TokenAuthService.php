@@ -116,7 +116,7 @@ class TokenAuthService extends Service
      * @param null $userMobile
      * @return string
      */
-    public function issueToken($userId = null, $username = null, $userMobile = null)
+    public function issueToken($userId = null, $username = null, $userMobile = null, $customInfo = null)
     {
         if ($userId == null && $username == null) {
             throw new \RuntimeException("userId and username cannot be null at the same time", 30000);
@@ -129,6 +129,7 @@ class TokenAuthService extends Service
             'username' => $username,
             'userMobile' => $userMobile,
             'ttl' => $tokenTtl,
+            'customInfo' => $customInfo
         ]);
         if ($this->set($tokenAuthStruct)) {
             $this->di->getLogger('middleware')->debug(sprintf("[TokenAuth] 颁发Token: token=%s, userId=%s, userName=%s, userMobile=%s", $tokenKey, $userId, $username, $userMobile));

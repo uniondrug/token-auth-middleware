@@ -40,4 +40,9 @@ class TokenAuthStruct extends Struct
      * @var int
      */
     public $ttl;
+
+    /**
+     * 自定义信息
+     */
+    public $customInfo;
 }
