@@ -14,5 +14,11 @@ class TokenAuthServiceProvider implements ServiceProviderInterface
                 return new TokenAuthService();
             }
         );
+        $di->set(
+            'saasTokenService',
+            function () {
+                return new SaasTokenService();
+            }
+        );
     }
 }
