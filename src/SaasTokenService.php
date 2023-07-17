@@ -11,9 +11,9 @@ class SaasTokenService extends Service
         $_SESSION['saasRole'] =  $token->customInfo['role'];
         $_SESSION['saasMobile'] =  $token->customInfo['mobile'];
         $_SESSION['saasPlatform'] =  $token->customInfo['platform'];
-        if(isset($token->customInfo['storeId']))$_SESSION['saasStoreId'] = $token->customInfo['storeId'];
-        if(isset($token->customInfo['merchantId']))$_SESSION['saasMerchantId'] = $token->customInfo['merchantId'];
-        if(isset($token->customInfo['hospitalId']))$_SESSION['saasHospitalId'] = $token->customInfo['hospitalId'];
+        $_SESSION['saasStoreId'] = $token->customInfo['storeId'] ?? '';
+        $_SESSION['saasMerchantId'] = $token->customInfo['merchantId'] ?? '';
+        $_SESSION['saasHospitalId'] = $token->customInfo['hospitalId'] ?? '';
     }
 
 
