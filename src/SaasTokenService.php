@@ -17,6 +17,10 @@ class SaasTokenService extends Service
     }
 
 
+    public function getSaasMobile()
+    {
+        return $_SESSION['saasMobile'];
+    }
     public function getSaasRole()
     {
         return $_SESSION['saasRole'];
